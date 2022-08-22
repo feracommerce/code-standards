@@ -1,0 +1,9 @@
+public/assets/**/*
+node_modules
+app/assets/stylesheets/__readme.md
+app/assets/stylesheets/**/*.min.css
+app/assets/stylesheets/lib/legacy/**/*
+app/assets/stylesheets/lib/theme/components/plugins/**/*
+app/assets/stylesheets/lib/theme/_variables.scss
+app/assets/stylesheets/lib/theme/_variables-dark.scss
+app/assets/builds/**/*

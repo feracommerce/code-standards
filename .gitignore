@@ -1,0 +1,103 @@
+# bundler state
+/.bundle
+/vendor/bundle/
+/vendor/ruby/
+
+prepare_cdn_assets.sh
+
+# minimal Rails specific artifacts
+/db/*.sqlite3
+/db/*.sqlite3-journal
+/log/*
+
+# need to commit the pid folder to our repo for builds to work
+/tmp/*
+/tmp/pids/*
+!/tmp/pids
+!/tmp/pids/.keep
+
+# various artifacts
+/.rspec
+/.sass-cache
+/config/config.yml
+/spec/coverage
+/spec/tmp
+
+# asset pipeline generated files
+
+# api documents
+/api_docs
+/doc/api
+
+# dotenv config
+/.env
+.env.*.local
+
+# netrc
+.netrc
+
+# bower installed files
+/vendor/assets/bower_components
+/bower_componentes
+
+# styleguide generated files
+/public/styleguide
+
+# ignore diffmerge auto-generated files
+*.orig
+
+# ignore the pry history file
+.pry_history
+# ignore this stupid stuff
+*.DS_Store
+
+# docs
+doc/*
+.yardoc
+.bash_history
+.solano*
+
+# Rubymine
+.idea
+
+# VS Code
+.vscode
+
+# ngrok webhook
+/ngrok
+ngrok.yml
+
+# redis dump
+dump.rdb
+
+# error file that is created sometimes for debugging purposes (stderr output)
+error
+
+# yarn installed files
+/node_modules/
+yarn-error.log
+
+# In production these files should not have asset digests on them and we're using the `on-stupid-digest-assets` gem to do that
+# however locally we want to ignore them and instead let the ./prepare_cdn_assets.sh system handle uploading it to our CDN.
+public/assets/public/bananastand.js
+public/assets/public/bananastand.js.gz
+public/assets/public/fera.js
+public/assets/public/fera.js.gz
+public/assets/public/fera.admin.js
+public/assets/public/fera.admin.js.gz
+
+# byebug
+.byebug_history
+
+# Rails 5+ storage
+storage/
+
+# Local server process definition
+Procfile-local
+/db/schema_cache.yml
+
+# From SimpleConv gem
+coverage
+
+# Shopify theme app extension files:
+app/store_adapters/*/**/.env

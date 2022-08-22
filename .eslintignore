@@ -1,0 +1,8 @@
+public/assets/**/*
+node_modules
+app/assets/javascripts/public/zepto
+app/assets/javascripts/public/zepto/**/*
+app/assets/javascripts/public/fera/lib/liquid.js
+app/assets/javascripts/lib/pollyfill.js
+app/assets/javascripts/lib/components/maps-vector.js
+app/assets/builds/**/*

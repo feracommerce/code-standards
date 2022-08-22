@@ -1,0 +1,1251 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Command Injection",
+      "warning_code": 14,
+      "fingerprint": "0275ccb4a11de71f9c01ffaf8c57c2ed9b273192bdee4632e953e175079d25ea",
+      "check_name": "Execute",
+      "message": "Possible command injection",
+      "file": "lib/memory_profiler/sampler.rb",
+      "line": 145,
+      "link": "https://brakemanscanner.org/docs/warning_types/command_injection/",
+      "code": "`#{command} #{$PROCESS_ID}`",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "MemoryProfiler::MemoryProfiler::Sampler::ShellPS",
+        "method": "get_memory"
+      },
+      "user_input": "command",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "06b6a487ae691a5bc216db6ef2b77f8baae334982ba6c47577218b14ae084331",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/layouts/pages.html.erb",
+      "line": 10,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "DynamicAssetLoader.vendor_css_assets_to_include(params, \"pages\").map do\n stylesheet_link_tag(path)\n end.join(\"\\n\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Api::V1::BaseController",
+          "method": "not_found",
+          "line": null,
+          "file": "app/controllers/concerns/bananastand/rescues_not_found.rb",
+          "rendered": {
+            "name": "layouts/pages",
+            "file": "app/views/layouts/pages.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "layouts/pages"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "0b2cdbdeb014fdcecc6054745b8271d4486881769e1e848a418b07cdd45d55f0",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/external/stores_controller.rb",
+      "line": 23,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params[:subscription_url])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "External::StoresController",
+        "method": "subscribe"
+      },
+      "user_input": "params[:subscription_url]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "0cd2a43017e8a5fb5b922a65987a779aa456f49aedfa65c4d8feab46505845c1",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/external/stores_controller.rb",
+      "line": 18,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(params[:url])",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "External::StoresController",
+        "method": "visit"
+      },
+      "user_input": "params[:url]",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "282b891efde6a7cae8b9ea0c3a37df168b3f424599111a0a918108e418f45ce2",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/store.rb",
+      "line": 320,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "disconnected.where(\"stores.disconnected_at - stores.created_at <= interval '#{days.to_i} #{\"day\".pluralize(days.to_i)}'\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Store",
+        "method": "disconnected_max_days"
+      },
+      "user_input": "\"day\".pluralize(days.to_i)",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "3369a9a1001dd94377e0ae203a235d01b29f8ef7c1bb6add776f97c853dfa499",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "partners/app/views/layouts/partners.html.erb",
+      "line": 53,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "DynamicAssetLoader.vendor_js_assets_to_include(params, \"partners\").map do\n javascript_include_tag(path)\n end.join(\"\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "layouts/partners"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "3623c44c436aae21622a3787f2f2b29347f14558c31faa1d9f3db174ec88609f",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/calculators/store_stats_calculator.rb",
+      "line": 145,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "@store.shopper_counters.where(:event_name => event_name).where(\"updated_at >= ? AND #{lookback} IS NOT NULL\", Time.zone.local_to_utc(Time.parse(Events::ShopperCountersCalculator::TEMPLATES.dig(:shifting, lookback.to_sym, :id).call(Time.current))))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "StoreStatsCalculator",
+        "method": "legacy_shopper_count"
+      },
+      "user_input": "lookback",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "36c9768aefafd8f9a8e676112e9288553065e96ab879c11c1879594ebecf9a39",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "partners/app/controllers/partners/stores_controller.rb",
+      "line": 42,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "@stores.order(\"#{sort_column} #{sort_order} NULLS LAST\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Partners::StoresController",
+        "method": "update_stores_sort_order"
+      },
+      "user_input": "sort_column",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "43bcbcf61f23578b2e02669c6dfb93b9c02397dfc6f73a423336902496844afb",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/layouts/devise.html.erb",
+      "line": 59,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "DynamicAssetLoader.index_js_assets_to_include(params, \"pages\").map do\n javascript_include_tag(path)\n end.join(\"\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "layouts/devise"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "5163f73c2146565ae7682cf3c9afad67a028b225b4630524b091123a933b6c6d",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/layouts/pages.html.erb",
+      "line": 61,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "DynamicAssetLoader.index_js_assets_to_include(params, \"pages\").map do\n javascript_include_tag(path)\n end.join(\"\\n\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Api::V1::BaseController",
+          "method": "not_found",
+          "line": null,
+          "file": "app/controllers/concerns/bananastand/rescues_not_found.rb",
+          "rendered": {
+            "name": "layouts/pages",
+            "file": "app/views/layouts/pages.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "layouts/pages"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "5e06c52835adf3246d9a1a8089636339b161d91c43c0c972e88ff67d390c5d09",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/layouts/devise.html.erb",
+      "line": 57,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "DynamicAssetLoader.vendor_js_assets_to_include(params, \"pages\").map do\n javascript_include_tag(path)\n end.join(\"\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "layouts/devise"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "5f56098ce578336003870db9da99a35fa5d85a6c6070c8a61275f53a0cc0474b",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/subscription_cancellation.rb",
+      "line": 14,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "sum(\"(subscription_cancellations.subscription_attributes ->> '#{attr}')::float\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SubscriptionCancellation",
+        "method": "subscription_sum"
+      },
+      "user_input": "attr",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "632d9252decac1566b74b3a32bf50bfb730cf8d9f2c0f4e2db1557abf35ded80",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib/sample_snek/resource.rb",
+      "line": 86,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "connection.delete(\"#{self.class.resource_name}/#{id}.json\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SampleSnek::Resource",
+        "method": "destroy"
+      },
+      "user_input": "self.class.resource_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "66c0a6fa88365e1ae19d802204cb0aa691bc3ee95cd004b26b7641fa45f4e3b8",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/feedback_controller.rb",
+      "line": 35,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(Store.find_by_id_token(params[:store].strip).app_store_review_url)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "FeedbackController",
+        "method": "rate"
+      },
+      "user_input": "Store.find_by_id_token(params[:store].strip).app_store_review_url",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "68b5643d6bec3960e1f3e6766261d6ef48bf11746ba74420fbf79660a7b50594",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "partners/app/views/layouts/partners.html.erb",
+      "line": 57,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "partner_dynamic_asset_loader.index_js_assets_to_include(params, \"partners\").map do\n javascript_include_tag(path)\n end.join(\"\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "layouts/partners"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "694dda336efe57f55e2e5b80e1dcb97a4d6fb242646547f5896789df2034f786",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/layouts/pages.html.erb",
+      "line": 12,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "DynamicAssetLoader.index_css_assets_to_include(params, \"pages\").map do\n stylesheet_link_tag(path)\n end.join(\"\\n\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Api::V1::BaseController",
+          "method": "not_found",
+          "line": null,
+          "file": "app/controllers/concerns/bananastand/rescues_not_found.rb",
+          "rendered": {
+            "name": "layouts/pages",
+            "file": "app/views/layouts/pages.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "layouts/pages"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "6b2dcc679bb3afe7348341d2ff6b2c183b61c03bb74bb8d6fcc6e8b44e13671f",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/store.rb",
+      "line": 321,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "disconnected.where(\"stores.disconnected_at - stores.created_at > interval '#{days.to_i} #{\"day\".pluralize(days.to_i)}'\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Store",
+        "method": "disconnected_min_days"
+      },
+      "user_input": "\"day\".pluralize(days.to_i)",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "6d86aaff11486dbc0acb6db9b451cb8081cc4cd453010622d7dda57aa4ea5e42",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/integrations/settings.html.erb",
+      "line": 46,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(partial => (current_store.integrations.find(params[:type].to_i) or current_store.integrations.find_or_initialize_by(:type => integration_klass.to_s)).partial_path, {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "IntegrationsController",
+          "method": "settings",
+          "line": 58,
+          "file": "app/controllers/integrations_controller.rb",
+          "rendered": {
+            "name": "integrations/settings",
+            "file": "app/views/integrations/settings.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "integrations/settings"
+      },
+      "user_input": "params[:type]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 70,
+      "fingerprint": "6e868bd1908616f3b1d1fb2a19b0780bd53221f8c168092a3e615ae728bda0a3",
+      "check_name": "MassAssignment",
+      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
+      "file": "app/controllers/incentives_controller.rb",
+      "line": 70,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:incentive).permit!",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "IncentivesController",
+        "method": "incentive_params"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "733158c068eaf04adbc7958307ab89ba86883a76a9a2a65283e140025d5d7e15",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "partners/app/views/layouts/partners.html.erb",
+      "line": 11,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "partner_dynamic_asset_loader.vendor_css_assets_to_include(params, \"partners\").map do\n stylesheet_link_tag(path)\n end.join(\"\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "layouts/partners"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "79c2b8a1faa1a9217e4f5ef8efe4480a99a7f85450f58afbc5d288c75228bc5b",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/uninstallation.rb",
+      "line": 29,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "where(\"uninstallations.created_at - uninstallations.store_created_at > interval '#{days.to_i} #{\"day\".pluralize(days.to_i)}'\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Uninstallation",
+        "method": "min_days"
+      },
+      "user_input": "\"day\".pluralize(days.to_i)",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "7b5ac0e8eb743d1aa50f62b9fb93864a04e12595022c03206b03337933b872f2",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/campaigns/edit.html.erb",
+      "line": 8,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(partial => (Campaign.all or current_store.campaigns).eager_load(:campaign_tests, :campaign_images).find(params[:id]).type_config(current_store)[:klass].editor_config[:edit][:before_heading][:path], { :locals => ({ :type => (Campaign.all or current_store.campaigns).eager_load(:campaign_tests, :campaign_images).find(params[:id]).type_config(current_store), :campaign => (Campaign.all or current_store.campaigns).eager_load(:campaign_tests, :campaign_images).find(params[:id]), :store => current_store, :templates => (@templates), :user => current_user }) })",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "CampaignsController",
+          "method": "edit",
+          "line": 185,
+          "file": "app/controllers/campaigns_controller.rb",
+          "rendered": {
+            "name": "campaigns/edit",
+            "file": "app/views/campaigns/edit.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "campaigns/edit"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "7f9294edb375a9e7346e1ed3dcd586d980653bdd38ab89579c4023212ffc9773",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/calculators/system_stats_calculator.rb",
+      "line": 399,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "accumulated_subscriptions.active.trials.non_trials.sum(\"EXTRACT(epoch FROM ('#{period_end}' - subscriptions.trial_ended_at))\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SystemStatsCalculator",
+        "method": "total_avg_subscription_lifetime"
+      },
+      "user_input": "period_end",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "820c92b3eb1659c2822314a38e912a08899f8dc9b2ad876511d652bff51b5f79",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/concerns/has_ids_in_campaign.rb",
+      "line": 32,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "store.campaigns.where(\"ARRAY(SELECT value::text::int from json_array_elements(campaigns.type_settings -> '#{self.class.attr_ids_name_in_campaign}')) @> ARRAY[?]\", id)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "HasIdsInCampaign",
+        "method": "campaigns"
+      },
+      "user_input": "self.class.attr_ids_name_in_campaign",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "8a751542ee4dacf0afb786001fca4fd6004e5103220540655b3ded9496136053",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/calculators/store_stats_calculator.rb",
+      "line": 151,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "@store.shopper_counters.where(:event_name => event_name).where(\"updated_at < ? OR #{lookback} IS NULL\", Time.zone.local_to_utc(Time.parse(Events::ShopperCountersCalculator::TEMPLATES.dig(:shifting, lookback.to_sym, :id).call(Time.current))))",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "StoreStatsCalculator",
+        "method": "legacy_shopper_count"
+      },
+      "user_input": "lookback",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "8e30f862f7722dd5ec13ce44d6d53b5bf3daff8167c26586991005f418b09a1a",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/layouts/application.html.erb",
+      "line": 73,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "DynamicAssetLoader.vendor_js_assets_to_include(params, \"clients\").map do\n javascript_include_tag(path)\n end.join(\"\\n\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "AbTestsController",
+          "method": "index",
+          "line": 13,
+          "file": "app/controllers/ab_tests_controller.rb",
+          "rendered": {
+            "name": "layouts/application",
+            "file": "app/views/layouts/application.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "layouts/application"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "903973440602ea5d4df83f993620c2e80ccdc8949bd296ee4e78dbd966d5160d",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/concerns/has_ids_in_campaign.rb",
+      "line": 13,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Arel.sql(\"array_position(ARRAY#{(campaign or Campaign.find(campaign)).type_settings[attr_ids_name_in_campaign].to_a.map(&:to_i).to_json}, #{plural_attr_name_in_campaign}.id::int)\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "HasIdsInCampaign",
+        "method": null
+      },
+      "user_input": "Campaign.find(campaign)",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "97b6993211b5e2a968182e76a2d25908e4120595ebb2bba263f2f4c86c391e81",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "partners/app/views/layouts/partners.html.erb",
+      "line": 54,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "partner_dynamic_asset_loader.vendor_js_assets_to_include(params, \"partners\").map do\n javascript_include_tag(path)\n end.join(\"\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "layouts/partners"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "9a5ed0e247beed71769f3926a2efdffa3b70afcd744f59709618105778d66377",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "app/views/campaigns/edit.html.erb",
+      "line": 26,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(partial => (Campaign.all or current_store.campaigns).eager_load(:campaign_tests, :campaign_images).find(params[:id]).type_config(current_store)[:klass].editor_config[:edit][:messages_area][:path], { :locals => ({ :type => (Campaign.all or current_store.campaigns).eager_load(:campaign_tests, :campaign_images).find(params[:id]).type_config(current_store), :campaign => (Campaign.all or current_store.campaigns).eager_load(:campaign_tests, :campaign_images).find(params[:id]), :store => current_store, :templates => (@templates), :user => current_user }) })",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "CampaignsController",
+          "method": "edit",
+          "line": 185,
+          "file": "app/controllers/campaigns_controller.rb",
+          "rendered": {
+            "name": "campaigns/edit",
+            "file": "app/views/campaigns/edit.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "campaigns/edit"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "9beb2241d62a6355c750f091b7339723f343de38f534ba6085e028d696f6180e",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/concerns/has_customer_and_shopper.rb",
+      "line": 17,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "where(\"shoppers.store_id = #{owner_table_name}.store_id\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "HasCustomerAndShopper",
+        "method": null
+      },
+      "user_input": "owner_table_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "9cc3b4003c52d7e97b18f227b9dfc94350455aa52d8bcd0fe4ed16207d162298",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/forms/customer_resources/base_customer_resources_form.rb",
+      "line": 48,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "@resource_collection.order(sort_column.to_sym => sort_order.to_sym).order(\"CASE\\n                        WHEN\\n                          #{self.class.table_name}.state IS NULL THEN 3\\n                        ELSE\\n                          array_position(ARRAY#{IsSubmittedContent::DEFAULT_SORT_STATES.to_json.gsub(\"\\\"\", \"'\")}, CAST(#{self.class.table_name}.state as text))\\n                        END ASC,\\n                     #{self.class.table_name}.created_at DESC\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "CustomerResources::BaseCustomerResourcesForm",
+        "method": "perform_sort"
+      },
+      "user_input": "IsSubmittedContent::DEFAULT_SORT_STATES.to_json.gsub(\"\\\"\", \"'\")",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 24,
+      "fingerprint": "9da943c887d14ae0686906a57cfd7396eb1c5eb1e2ed905b33afd300990e5b3d",
+      "check_name": "UnsafeReflection",
+      "message": "Unsafe reflection method `constantize` called on parameter value",
+      "file": "app/models/imports/customer_reviews/integration_import.rb",
+      "line": 215,
+      "link": "https://brakemanscanner.org/docs/warning_types/remote_code_execution/",
+      "code": "$all_integrations[params[\"integration_type\"].to_sym].constantize",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Imports::CustomerReviews::IntegrationImport",
+        "method": "load_integration"
+      },
+      "user_input": "params[\"integration_type\"].to_sym",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 24,
+      "fingerprint": "9f3db8d68c07e2feb97db54066f95a3b3ab8303dcec29c4997d1a8cfbfe2d03c",
+      "check_name": "UnsafeReflection",
+      "message": "Unsafe reflection method `constantize` called on parameter value",
+      "file": "app/controllers/integrations_controller.rb",
+      "line": 13,
+      "link": "https://brakemanscanner.org/docs/warning_types/remote_code_execution/",
+      "code": "$all_integrations[params[:type].to_sym].constantize",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "IntegrationsController",
+        "method": "oauth_callback"
+      },
+      "user_input": "params[:type].to_sym",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "a146564cd4de634ff96c2d479534829df6853e3f1733f4930e0a43033173417f",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/layouts/pages.html.erb",
+      "line": 59,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "DynamicAssetLoader.vendor_js_assets_to_include(params, \"pages\").map do\n javascript_include_tag(path)\n end.join(\"\\n\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "Api::V1::BaseController",
+          "method": "not_found",
+          "line": null,
+          "file": "app/controllers/concerns/bananastand/rescues_not_found.rb",
+          "rendered": {
+            "name": "layouts/pages",
+            "file": "app/views/layouts/pages.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "layouts/pages"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "a2054f993b1208d567b600157f3abc7d8db3720a9265e8b25572c8b65c43b2ea",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/uninstallation.rb",
+      "line": 28,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "where(\"uninstallations.created_at - uninstallations.store_created_at <= interval '#{days.to_i} #{\"day\".pluralize(days.to_i)}'\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Uninstallation",
+        "method": "max_days"
+      },
+      "user_input": "\"day\".pluralize(days.to_i)",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "a28869534e79bef079bed207cd7d40916d4b15485555a84144dfe85b759db23a",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/layouts/devise.html.erb",
+      "line": 17,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "DynamicAssetLoader.index_css_assets_to_include(params, \"pages\").map do\n stylesheet_link_tag(path)\n end.join(\"\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "layouts/devise"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "aa662bc00a167d9e199dfd2aa17fa02655cc369c0b530dbe3d293072663f85f7",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/layouts/application.html.erb",
+      "line": 12,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "DynamicAssetLoader.index_css_assets_to_include(params, \"clients\").map do\n stylesheet_link_tag(path)\n end.join(\"\\n\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "AbTestsController",
+          "method": "index",
+          "line": 13,
+          "file": "app/controllers/ab_tests_controller.rb",
+          "rendered": {
+            "name": "layouts/application",
+            "file": "app/views/layouts/application.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "layouts/application"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "ac298375e0955433747a697ba749a2a37c670eab9e1d2d17e7ef259428e20ac6",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/concerns/has_customer_and_shopper.rb",
+      "line": 10,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "where(\"customers.store_id = #{owner_table_name}.store_id\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "HasCustomerAndShopper",
+        "method": null
+      },
+      "user_input": "owner_table_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "afb783604430ec9bed2edffc63f3cd2b682caebf555e321d2b5e444dcdb68363",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "partners/app/views/layouts/partners.html.erb",
+      "line": 10,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "DynamicAssetLoader.vendor_css_assets_to_include(params, \"partners\").map do\n stylesheet_link_tag(path)\n end.join(\"\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "layouts/partners"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SSL Verification Bypass",
+      "warning_code": 71,
+      "fingerprint": "b569d1c945718a04006f2c6aa1644a980441ce0bb05169799cea0970697077d0",
+      "check_name": "SSLVerify",
+      "message": "SSL certificate verification was bypassed",
+      "file": "lib/bananastand/store_crawler.rb",
+      "line": 10,
+      "link": "https://brakemanscanner.org/docs/warning_types/ssl_verification_bypass/",
+      "code": "Mechanize.new do\n agent.open_timeout = 10.seconds\nagent.read_timeout = 10.seconds\n end.verify_mode = OpenSSL::SSL::VERIFY_NONE",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Bananastand::StoreCrawler",
+        "method": "mechanize"
+      },
+      "user_input": null,
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "ba1dbbfa18a6f14b23175202336e42d9d6a7afccdb34fc9d32d931c3af16fa26",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "partners/app/views/layouts/partners.html.erb",
+      "line": 14,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "partner_dynamic_asset_loader.index_css_assets_to_include(params, \"partners\").map do\n stylesheet_link_tag(path)\n end.join(\"\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "layouts/partners"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "bbc11c19ee1872b61b51571abfa82e9c2fe0438aba06a8ebe6d017d2cc62687e",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "partners/app/views/layouts/partners.html.erb",
+      "line": 13,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "DynamicAssetLoader.index_css_assets_to_include(params, \"partners\").map do\n stylesheet_link_tag(path)\n end.join(\"\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "layouts/partners"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "becf2d45a7bb2fe2f29a5709428cbf78f204eab029a4164bd6f17f28129cadef",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib/sample_snek/sub_resource.rb",
+      "line": 63,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "connection.delete(\"#{parent.resource_name}/#{parent.id}/#{resource_name}/#{id}.json\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "SampleSnek::SubResource",
+        "method": "destroy"
+      },
+      "user_input": "parent.resource_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "c38355d89a3b48c2286d1a8e10c0318b3c48a5eeed6be3251b7833a5b791be23",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "partners/app/views/layouts/partners.html.erb",
+      "line": 56,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "DynamicAssetLoader.index_js_assets_to_include(params, \"partners\").map do\n javascript_include_tag(path)\n end.join(\"\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "layouts/partners"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "c648ea4fc3f08af8f8979225063c987e82873d463344ae6b96ba1a5df087ea9f",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/layouts/application.html.erb",
+      "line": 78,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "DynamicAssetLoader.index_js_assets_to_include(params, \"clients\").map do\n javascript_include_tag(path)\n end.join(\"\\n\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "AbTestsController",
+          "method": "index",
+          "line": 13,
+          "file": "app/controllers/ab_tests_controller.rb",
+          "rendered": {
+            "name": "layouts/application",
+            "file": "app/views/layouts/application.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "layouts/application"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Redirect",
+      "warning_code": 18,
+      "fingerprint": "c99da4152ed0870e93c0c31882ad6cdd5d107bfaee87b0f02ff4e90d446106a4",
+      "check_name": "Redirect",
+      "message": "Possible unprotected redirect",
+      "file": "app/controllers/users_controller.rb",
+      "line": 94,
+      "link": "https://brakemanscanner.org/docs/warning_types/redirect/",
+      "code": "redirect_to(current_store.users.find(params[:id]), :notice => \"User was successfully updated.\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "UsersController",
+        "method": "update"
+      },
+      "user_input": "params[:id]",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "d3bb6e5b62e342ade91927b62277bf366b97d9047a0fb9d310f0f43b8ffda537",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/concerns/is_submitted_product_content.rb",
+      "line": 10,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "where(\"products.store_id = #{owner_table_name}.store_id\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "IsSubmittedProductContent",
+        "method": null
+      },
+      "user_input": "owner_table_name",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Unmaintained Dependency",
+      "warning_code": 120,
+      "fingerprint": "d84924377155b41e094acae7404ec2e521629d86f97b0ff628e3d1b263f8101c",
+      "check_name": "EOLRails",
+      "message": "Support for Rails 5.2.4.3 ended on 2022-06-01",
+      "file": "Gemfile.lock",
+      "line": 682,
+      "link": "https://brakemanscanner.org/docs/warning_types/unmaintained_dependency/",
+      "code": null,
+      "render_path": null,
+      "location": null,
+      "user_input": null,
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "d8d854730f92e6cc9ddad13eab42bbb99f904c482eebfe8060b1c7e045e2f6b7",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/workers/old_data_cleanups/shoppers_worker.rb",
+      "line": 101,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Shopper.connection.execute(\"INSERT INTO shoppers_archivable (\\\"store_id\\\", \\\"visitor_id\\\") VALUES\\n#{visitor_ids.reject do\n (Order.where(:store_id => store_id).where(:visitor_id => visitor_ids).pluck(:visitor_id).include?(vid) or vid.blank?)\n end.reject do\n (ContentSubmission.where(:store_id => store_id).where(:visitor_id => (visitor_ids.reject do\n (Order.where(:store_id => store_id).where(:visitor_id => visitor_ids).pluck(:visitor_id).include?(vid) or vid.blank?)\n end)).pluck(:visitor_id).include?(vid) or (vid.blank? or vid =~ /[^a-zA-Z0-9-]/))\n end.map do\n \"(#{store_id.to_i},E'#{v}')\"\n end.join(\",\")}\\nON CONFLICT DO NOTHING\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "OldDataCleanups::ShoppersWorker",
+        "method": "archive_visitor_ids_in_db!"
+      },
+      "user_input": "ContentSubmission.where(:store_id => store_id).where(:visitor_id => (visitor_ids.reject do\n (Order.where(:store_id => store_id).where(:visitor_id => visitor_ids).pluck(:visitor_id).include?(vid) or vid.blank?)\n end))",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "d92be7e4ff2df7dbe8f1c0eb77bbc15add22b82da72beea7b142eed07a5dc054",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/layouts/application.html.erb",
+      "line": 10,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "DynamicAssetLoader.vendor_css_assets_to_include(params, \"clients\").map do\n stylesheet_link_tag(path)\n end.join(\"\\n\")",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "AbTestsController",
+          "method": "index",
+          "line": 13,
+          "file": "app/controllers/ab_tests_controller.rb",
+          "rendered": {
+            "name": "layouts/application",
+            "file": "app/views/layouts/application.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "layouts/application"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "de0bf052bc9dae293ec8de18a0ef66b763618535c8255ecc9368f6c9adc054f8",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/models/customer.rb",
+      "line": 111,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "where(\"(cached_counts ->> 'average_customer_reviews_rating')::float = #{count.to_f.round(1)}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Customer",
+        "method": "with_average_rating"
+      },
+      "user_input": "count.to_f.round(1)",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 70,
+      "fingerprint": "e10a3bff92afb797d0705fc0c2f3e14289c342b77eebb1a771abc8e5047ee165",
+      "check_name": "MassAssignment",
+      "message": "Specify exact keys allowed for mass assignment instead of using `permit!` which allows any keys",
+      "file": "app/controllers/integrations_controller.rb",
+      "line": 229,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.fetch(\"#{@integration.code}_integration\", {}).permit!",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "IntegrationsController",
+        "method": "update_integration_options"
+      },
+      "user_input": null,
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "e3b7e54823aa8458d5c919e92299dceb07e341f64f50f64d2d8aa83b05ee5539",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "lib/bananastand/mass_store_updater.rb",
+      "line": 111,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "(collection or Store.all).where(\"\\\"stores\\\".\\\"id\\\" % #{thread_count} = #{thread_index}\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Bananastand::MassStoreUpdater",
+        "method": "run"
+      },
+      "user_input": "thread_count",
+      "confidence": "Weak",
+      "note": ""
+    },
+    {
+      "warning_type": "Remote Code Execution",
+      "warning_code": 24,
+      "fingerprint": "ebbe8ebd59d98736ea0097d32b63d8514f37b7c0096bb750f4bf37e63cf186d8",
+      "check_name": "UnsafeReflection",
+      "message": "Unsafe reflection method `constantize` called on parameter value",
+      "file": "app/controllers/historical_actions_controller.rb",
+      "line": 51,
+      "link": "https://brakemanscanner.org/docs/warning_types/remote_code_execution/",
+      "code": "params[:model_type].to_s.camelize.constantize",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "HistoricalActionsController",
+        "method": "model_klass"
+      },
+      "user_input": "params[:model_type].to_s.camelize",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "f03adb8811b308ab12df3ab60f252f8b26fd07e27c757dd316ee70cd46b57437",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/migrators/plans/new_pricing_migrator.rb",
+      "line": 368,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Plan.where(:code => plan[:code]).update_all(\"feature_flags = jsonb_set(feature_flags, '{ongoing_content_campaigns}', to_json(#{plan[:ongoing_content_campaign_limit]}::int)::jsonb)\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Plans::NewPricingMigrator",
+        "method": "add_ongoing_content_campaign_feature_flag!"
+      },
+      "user_input": "plan[:ongoing_content_campaign_limit]",
+      "confidence": "Medium",
+      "note": ""
+    },
+    {
+      "warning_type": "SQL Injection",
+      "warning_code": 0,
+      "fingerprint": "f08186d9936dba24b8e27282815ca47b3827f716d1d102842aab2afac1b17a81",
+      "check_name": "SQL",
+      "message": "Possible SQL injection",
+      "file": "app/workers/old_data_cleanups/shoppers_worker.rb",
+      "line": 120,
+      "link": "https://brakemanscanner.org/docs/warning_types/sql_injection/",
+      "code": "Shopper.connection.execute(\"DELETE FROM shoppers_archivable WHERE store_id = #{store_id.to_i} AND visitor_id IN (#{Shopper.connection.select_values(\"SELECT visitor_id FROM shoppers_archivable WHERE store_id = #{store_id.to_i} LIMIT 10000\").map do\n \"E'#{v}'\"\n end.join(\",\")})\")",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "OldDataCleanups::ShoppersWorker",
+        "method": "delete_archivable_ids!"
+      },
+      "user_input": "Shopper.connection.select_values(\"SELECT visitor_id FROM shoppers_archivable WHERE store_id = #{store_id.to_i} LIMIT 10000\")",
+      "confidence": "High",
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "fdf9ae7279d0f1a9fd0012ebfc0ba89ac5d6a7a871a9483301a1d2d38afca987",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped parameter value",
+      "file": "app/views/layouts/devise.html.erb",
+      "line": 15,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "DynamicAssetLoader.vendor_css_assets_to_include(params, \"pages\").map do\n stylesheet_link_tag(path)\n end.join(\"\\n\")",
+      "render_path": null,
+      "location": {
+        "type": "template",
+        "template": "layouts/devise"
+      },
+      "user_input": "params",
+      "confidence": "Weak",
+      "note": ""
+    }
+  ],
+  "updated": "2022-08-15 16:32:28 -0400",
+  "brakeman_version": "5.2.3"
+}

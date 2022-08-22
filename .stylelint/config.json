@@ -1,0 +1,27 @@
+{
+  "extends": "stylelint-config-standard-scss",
+  "rules": {
+    "at-rule-no-unknown": null,
+    "scss/at-rule-no-unknown": true,
+    "indentation": 4,
+    "scss/at-extend-no-missing-placeholder": null,
+    "selector-class-pattern": "^([a-z][a-zA-Z0-9]*)+(-([a-z0-9][a-zA-Z0-9]*)+)*(--([a-z0-9][a-zA-Z0-9]*)+([-_][a-zA-Z0-9]+)*)?$",
+    "selector-id-pattern": "^([a-z]+(_[a-z]+)*)|([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*(--[a-zA-Z0-9]+([-_][a-zA-Z0-9]+)*)?)$",
+    "no-descending-specificity": null,
+    "max-line-length": 200,
+    "number-max-precision": null,
+    "scss/double-slash-comment-whitespace-inside": null,
+    "scss/comment-no-empty": null,
+    "no-eol-whitespace": null,
+    "scss/operator-no-unspaced": null,
+    "scss/no-global-function-names": null,
+    "color-function-notation": null,
+    "property-no-vendor-prefix": null,
+    "value-no-vendor-prefix": null,
+    "at-rule-no-vendor-prefix": null,
+    "alpha-value-notation": null,
+    "color-hex-case": "upper",
+    "selector-not-notation": null,
+    "selector-attribute-quotes": null
+  }
+}

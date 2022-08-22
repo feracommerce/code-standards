@@ -1,0 +1,7 @@
+{
+  "esversion": 6,
+  "sub": true,
+  "loopfunc": true,
+  "evil": true,
+  "expr": true
+}
