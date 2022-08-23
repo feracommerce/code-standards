@@ -3,8 +3,6 @@
 /vendor/bundle/
 /vendor/ruby/
 
-prepare_cdn_assets.sh
-
 # minimal Rails specific artifacts
 /db/*.sqlite3
 /db/*.sqlite3-journal
@@ -37,7 +35,6 @@ prepare_cdn_assets.sh
 .netrc
 
 # bower installed files
-/vendor/assets/bower_components
 /bower_componentes
 
 # styleguide generated files
@@ -77,15 +74,6 @@ error
 /node_modules/
 yarn-error.log
 
-# In production these files should not have asset digests on them and we're using the `on-stupid-digest-assets` gem to do that
-# however locally we want to ignore them and instead let the ./prepare_cdn_assets.sh system handle uploading it to our CDN.
-public/assets/public/bananastand.js
-public/assets/public/bananastand.js.gz
-public/assets/public/fera.js
-public/assets/public/fera.js.gz
-public/assets/public/fera.admin.js
-public/assets/public/fera.admin.js.gz
-
 # byebug
 .byebug_history
 
@@ -99,5 +87,5 @@ Procfile-local
 # From SimpleConv gem
 coverage
 
-# Shopify theme app extension files:
-app/store_adapters/*/**/.env
+# Rubocop cache
+.rubocop-http*
