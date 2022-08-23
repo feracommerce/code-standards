@@ -1,0 +1,28 @@
+RSpec/AnyInstance:
+  Enabled: false # These are ill advised, but OK since we mainly do integration testing, not unit testing
+RSpec/ContextWording:
+  Prefixes:
+    - when
+    - with
+    - without
+    - if
+    - unless
+    - for
+    - or
+    - and
+    - but
+    - then
+RSpec/ExampleLength:
+  Max: 50 # Since we're mainly focused on feature and integration testing long lines are OK
+RSpec/MultipleExpectations:
+  Enabled: false # It's much more efficient to do multiple expectations in one test and we're not really unit testings
+RSpec/MessageSpies:
+  Enabled: false # We don't really care about this
+RSpec/NestedGroups:
+  Max: 5 # More than 5 gets super confusing, so we should avoid it.
+RSpec/StubbedMock:
+  Enabled: false # Sometimes we just want to allow and not expect.
+RSpec/SubjectStub:
+  Enabled: false # Since we are doing integration testing mostly and not unit testing, sometimes we want to mock a service on the model being tested
+RSpec/Capybara/FeatureMethods:
+  Enabled: false # Our convention is to use `feature` instead.
