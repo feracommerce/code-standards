@@ -2,3 +2,9 @@ Rails/I18nLocaleTexts:
   Enabled: false # It's overkill to make everything 100% translated and makes our code much harder to maintain
 Rails/Output:
   Enabled: false # We often use our own logger (ForcedLogger). Stray "puts" should be caught in PR reviews.
+Rails/UnknownEnv:
+  Environments:
+    - development
+    - test
+    - staging # Not included by default
+    - production

@@ -1,0 +1,35 @@
+{
+  "environments": {
+    "test": {
+      "formation": {
+        "test": {
+          "quantity": 3
+        }
+      },
+      "buildpacks": [
+        { "url": "heroku/nodejs" },
+        { "url": "heroku/ruby" },
+        { "url": "https://github.com/feracommerce/heroku-buildpack-google-chrome" },
+        { "url": "https://github.com/heroku/heroku-buildpack-chromedriver" },
+        { "url": "https://github.com/buitron/geckodriver-buildpack.git"},
+        { "url": "https://github.com/buitron/firefox-buildpack.git"}
+      ],
+      "scripts": {
+        "test-setup": "./bin/ci_test_setup",
+        "test": "if [[ $CI_NODE_INDEX == \"0\" ]]; then ./bin/check_code; else ./bin/ci_test_run; fi"
+      },
+      "env": {
+        "CHROME_DOWNLOAD_URL": "https://cdn.fera.ai/dev/chrome/84.0.4147.135/google-chrome-stable_current_amd64.deb",
+        "BROWSER_PATH": "/app/.apt/usr/bin/google-chrome",
+        "FIREFOX_BROWSER_PATH": "/app/vendor/firefox/firefox",
+        "FIREFOX_VERSION": "81.0",
+        "GECKODRIVER_VERSION": "0.26.0",
+        "CHROMEDRIVER_VERSION": "84.0.4147.30"
+      },
+      "addons":[
+        "heroku-redis:in-dyno",
+        "heroku-postgresql:in-dyno"
+      ]
+    }
+  }
+}

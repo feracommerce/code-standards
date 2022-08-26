@@ -1,0 +1,4 @@
+web: bundle exec puma -t 5:5 -p ${WEB_SEVER_PORT:-3003} -e ${RACK_ENV:-development}
+js: yarn build:js --watch
+css: yarn build:css --watch
+ngrok: ngrok http --subdomain=${NGROK_SUBDOMAIN:-fera-{{ APP_CODE }}} ${WEB_SEVER_PORT:-3003} --log-level=warn

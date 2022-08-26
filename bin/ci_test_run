@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+test_result = if ENV['CI_NODE_INDEX'].to_i == 2 # This is our feature specs node
+                puts "== Running feature tests =="
+                system("bundle exec rspec --pattern \"spec/features/**/*_spec.rb\"")
+              else
+                puts "== Running non-feature tests =="
+                system("bundle exec rspec --exclude-pattern \"spec/features/**/*\"")
+              end
+
+if test_result
+  puts "Tests passed!"
+  exit 0
+else
+  puts "Tests failed!"
+  exit 1
+end

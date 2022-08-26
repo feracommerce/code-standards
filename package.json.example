@@ -1,0 +1,22 @@
+{
+  "name": "@fera/{{ APP_CODE }}",
+  "private": true,
+  "dependencies": {
+    "esbuild": "^0.14.51",
+    "@fera/apps-brand": "https://github.com/feracommerce/fera-apps-brand.git",
+    "sass": "^1.54.0"
+  },
+  "scripts": {
+    "build:js": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
+    "build:css": "sass ./app/assets/stylesheets/application.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules",
+    "build:fonts": "cp -rpf ./node_modules/@fera/apps-brand/fonts/* app/assets/builds/fonts/ && cp -rpf ./node_modules/@fera/apps-brand/fonts/* app/assets/fonts/",
+    "build": "yarn build:js && yarn build:css && yarn build:fonts",
+    "dev": "source .env && bundle exec foreman start -f Procfile.dev"
+  },
+  "devDependencies": {
+    "jshint": "2.13.5",
+    "stylelint": "14.9.1",
+    "stylelint-config-standard-scss": "5.0.0",
+    "eslint": "8.21.0"
+  }
+}

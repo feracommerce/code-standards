@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+if ENV['CI_NODE_INDEX'].to_i == 0
+  puts "== Setting up for linters =="
+  # Nothing really to do here
+else
+  puts "== Setting up for tests =="
+  puts "Compiling assets..."
+  system("bundle exec rake assets:precompile")
+end
