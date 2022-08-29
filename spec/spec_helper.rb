@@ -23,6 +23,9 @@ require 'capybara/rails'
 require 'capybara/mechanize'
 require 'ffaker'
 
+# To use Chrome, change this to :chrome
+BROWSER = :chrome
+
 # For parallel testing we need to set the capybara port based on the opts
 capybara_server_port = 3001 + ENV['TEST_ENV_NUMBER'].to_i
 
@@ -43,45 +46,79 @@ if ENV['FEATURE_TEST_MAX_WAIT_TIME'].present?
 end
 
 Selenium::WebDriver.logger.level = :debug if ENV['SELENIUM_DEBUG_MODE'].to_bool
-if ENV['FIREFOX_BROWSER_PATH'].present?
-  Selenium::WebDriver::Firefox.path = ENV['FIREFOX_BROWSER_PATH']
-  puts "Using Firefox from: #{ ENV['FIREFOX_BROWSER_PATH'] }"
+
+CAPYBARA_DOWNLOAD_DIRECTORY = Rails.root.join('tmp', "test#{ ENV.fetch('TEST_ENV_NUMBER', nil) }", 'capybara', 'downloads').to_s
+FileUtils.mkdir_p(CAPYBARA_DOWNLOAD_DIRECTORY) # This will make the directory if it does not exist
+
+
+Capybara.default_max_wait_time = ENV.fetch('FEATURE_TEST_MAX_WAIT_TIME', 15).to_i
+if ENV['FEATURE_TEST_MAX_WAIT_TIME'].present?
+  puts "Will wait up to #{ ENV['FEATURE_TEST_MAX_WAIT_TIME'] } for feature tests to complete before deeming them a failure."
 end
+
+Selenium::WebDriver.logger.level = :debug if ENV['SELENIUM_DEBUG_MODE'].to_bool
 
 CAPYBARA_DOWNLOAD_DIRECTORY = Rails.root.join('tmp', "test#{ ENV.fetch('TEST_ENV_NUMBER', nil) }", 'capybara', 'downloads').to_s
 FileUtils.mkdir_p(CAPYBARA_DOWNLOAD_DIRECTORY) # This will make the directory if it does not exist
 
 #############################################################################################
-# BEGIN - Setup selenium profile so we can download files
+# BEGIN - Browser setup for feature tests
 
-firefox_profile = Selenium::WebDriver::Firefox::Profile.new
-firefox_profile['browser.download.dir'] = CAPYBARA_DOWNLOAD_DIRECTORY
-firefox_profile['browser.download.folderList'] = 2
-firefox_profile['browser.helperApps.alwaysAsk.force'] = false
-firefox_profile['network.websocket.allowInsecureFromHTTPS'] = true # Since capybara runs on http://
-firefox_profile['network.cookie.sameSite.laxByDefault'] = false
-firefox_profile['network.cookie.sameSite.noneRequiresSecure'] = false
-firefox_profile['browser.download.manager.showWhenStarting'] = false
-firefox_profile["browser.download.viewableInternally.enabledTypes"] = ""
-firefox_profile["devtools.selfxss.count"] = 100 # To allow pasting in dev tools when we open the console
-firefox_profile['browser.helperApps.neverAsk.saveToDisk'] =
-  'text/csv,text/tsv,text/xml,application/xml,text/plain,application/pdf,application/doc,application/docx,' \
+if BROWSER == :chrome
+  require 'capybara/apparition'
+
+  Capybara.register_driver :apparition_headless do |app|
+    Capybara::Apparition::Driver.new(app, { headless: true, window_size: [1366, 768], timeout: 120, js_errors: true, ignore_https_errors: true })
+  end
+
+  Capybara.register_driver :apparition do |app|
+    browser_options = { 'enable-features'      => 'NetworkService,NetworkServiceInProcess',
+                        'disable-gpu'          => nil,
+                        'no-sandbox'           => nil,
+                        'disable-web-security' => nil,
+                        'disable-features'     => 'VizDisplayCompositor' }
+
+    Capybara::Apparition::Driver.new(app, inspector: true, headless: false, window_size: [1366, 768], timeout: 120,
+                                     js_errors: true, debug: true, ignore_https_errors: true, browser_options: browser_options)
+  end
+
+  Capybara.javascript_driver = (ENV['DEBUG'].to_bool || ENV['HEADLESS'] == 'false') ? :apparition : :apparition_headless
+  Capybara.default_driver = (ENV['DEBUG'].to_bool || ENV['HEADLESS'] == 'false') ? :apparition : :apparition_headless
+else
+  if ENV['FIREFOX_BROWSER_PATH'].present?
+    Selenium::WebDriver::Firefox.path = ENV['FIREFOX_BROWSER_PATH']
+    puts "Using Firefox from: #{ ENV['FIREFOX_BROWSER_PATH'] }"
+  end
+
+  firefox_profile = Selenium::WebDriver::Firefox::Profile.new
+  firefox_profile['browser.download.dir'] = CAPYBARA_DOWNLOAD_DIRECTORY
+  firefox_profile['browser.download.folderList'] = 2
+  firefox_profile['browser.helperApps.alwaysAsk.force'] = false
+  firefox_profile['network.websocket.allowInsecureFromHTTPS'] = true # Since capybara runs on http://
+  firefox_profile['network.cookie.sameSite.laxByDefault'] = false
+  firefox_profile['network.cookie.sameSite.noneRequiresSecure'] = false
+  firefox_profile['browser.download.manager.showWhenStarting'] = false
+  firefox_profile["browser.download.viewableInternally.enabledTypes"] = ""
+  firefox_profile["devtools.selfxss.count"] = 100 # To allow pasting in dev tools when we open the console
+  firefox_profile['browser.helperApps.neverAsk.saveToDisk'] =
+    'text/csv,text/tsv,text/xml,application/xml,text/plain,application/pdf,application/doc,application/docx,' \
   'image/jpeg,application/gzip,application/x-gzip,application/octet-stream,image/png,image/jpg'
-firefox_browser_options = ::Selenium::WebDriver::Firefox::Options.new
-firefox_browser_options.profile = firefox_profile
+  firefox_browser_options = ::Selenium::WebDriver::Firefox::Options.new
+  firefox_browser_options.profile = firefox_profile
 
-Capybara.register_driver :selenium do |app|
-  Capybara::Selenium::Driver.new(app, browser: :firefox, timeout: 120, options: firefox_browser_options)
+  Capybara.register_driver :selenium do |app|
+    Capybara::Selenium::Driver.new(app, browser: :firefox, timeout: 120, options: firefox_browser_options)
+  end
+
+  Capybara.register_driver :selenium_headless do |app|
+    Capybara::Selenium::Driver.load_selenium
+    firefox_browser_options.args << '-headless'
+    Capybara::Selenium::Driver.new(app, browser: :firefox, timeout: 120, options: firefox_browser_options)
+  end
+
+  Capybara.javascript_driver = (ENV['DEBUG'].to_bool || ENV['HEADLESS'] == 'false') ? :selenium : :selenium_headless
+  Capybara.default_driver = (ENV['DEBUG'].to_bool || ENV['HEADLESS'] == 'false') ? :selenium : :selenium_headless
 end
-
-Capybara.register_driver :selenium_headless do |app|
-  Capybara::Selenium::Driver.load_selenium
-  firefox_browser_options.args << '-headless'
-  Capybara::Selenium::Driver.new(app, browser: :firefox, timeout: 120, options: firefox_browser_options)
-end
-
-# END - Setup selenium profile so we can download files
-#############################################################################################
 
 Capybara.configure do |config|
   config.default_max_wait_time = ENV.fetch('FEATURE_TEST_MAX_WAIT_TIME', 60).to_i
@@ -91,9 +128,9 @@ Capybara.configure do |config|
   config.server_port = capybara_server_port
 end
 
-# Change this next lines to :selenium (firefox) to see what's happening visually
-Capybara.javascript_driver = (ENV['DEBUG'].to_bool || ENV['HEADLESS'] == 'false') ? :selenium : :selenium_headless
-Capybara.default_driver = (ENV['DEBUG'].to_bool || ENV['HEADLESS'] == 'false') ? :selenium : :selenium_headless
+#############################################################################################
+# END - Browser setup for feature tests
+
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -107,12 +144,15 @@ RSpec.configure do |config|
     next if !example.exception || $pryed_on_error
 
     if ENV['DEBUG'].to_bool || ENV['PRY_ON_ERROR'].to_bool
-      puts Rainbow("[DEBUG MODE] Test failed:\n").red + example.exception.inspect
+      puts "[DEBUG MODE] Test failed:\n#{ example.exception.inspect }"
       binding.pry # rubocop:disable Lint/Debugger
     elsif ENV['ENABLE_SENTRY_FOR_TEST'].to_bool && ENV['HEROKU_TEST_RUN_BRANCH'] == 'master' && defined?(Raven)
       Raven.capture_exception(example.exception, extra: example.metadata.to_h.slice(:file_path, :line_number, :full_description))
     end
   end
+
+  # Make sure transactional fixtures are enabled or else the models created/changed in specs will not be reflected in capybara server
+  config.use_transactional_fixtures = true
 
   ## FactoryBot
   config.include FactoryBot::Syntax::Methods
