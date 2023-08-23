@@ -12,8 +12,10 @@ AllCops:
     - app/migrators/**/*
     - lib/google/apis/**/*
     - bin/*
+    - '*/bin/*
     - Rakefile
     - config.ru
+    - '*/config.ru'
     - '*legacy*'
     - config/initializers/monkey_patches/**/*
     - db/seeds/**/*
