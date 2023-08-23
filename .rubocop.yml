@@ -12,7 +12,7 @@ AllCops:
     - app/migrators/**/*
     - lib/google/apis/**/*
     - bin/*
-    - '*/bin/*
+    - '*/bin/*'
     - Rakefile
     - config.ru
     - '*/config.ru'
